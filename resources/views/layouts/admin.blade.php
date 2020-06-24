@@ -55,22 +55,22 @@
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      @can('isAdmin')
-      <li class="nav-item">
+      @canany(['isSuperAdmin','isAdmin'])
+      <li class="nav-item{{ request()->is('admin/user*') ? ' active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#user" aria-expanded="true" aria-controls="user">
           <i class="fas fa-fw fa-cog"></i>
           <span>User</span>
         </a>
-        <div id="user" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="user" class="collapse {{ request()->is('admin/user*') ? 'show ' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">User:</h6>
-            <a class="collapse-item" href="{{ route('admin.user.index') }}">List User</a>
-            <a class="collapse-item" href="#">Tambah User</a>
-            <a class="collapse-item" href="#">User Nonaktif</a>
+            <a class="collapse-item{{ request()->is('admin/user') ? ' active' : '' }}" href="{{ route('admin.user.index') }}">List User</a>
+            <a class="collapse-item{{ request()->is('admin/user/create') ? ' active' : '' }}" href="{{ route('admin.user.create') }}">Tambah User</a>
+            <a class="collapse-item{{ request()->is('admin/user/nonaktif') ? ' active' : '' }}" href="{{ route('admin.user.trash') }}">User Nonaktif</a>
           </div>
         </div>
       </li>
-      @endcan
+      @endcanany
 
 
       <!-- Nav Item - Pages Collapse Menu -->

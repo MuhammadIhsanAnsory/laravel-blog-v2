@@ -20,7 +20,7 @@ class AdminWriter
       return redirect('login');
     }
     $user = Auth::user();
-    if ($user->role == 'admin' || $user->role == 'writer') {
+    if ($user->role == 'SuperAdmin' || $user->role == 'admin' || $user->role == 'writer') {
       return $next($request);
     }
 

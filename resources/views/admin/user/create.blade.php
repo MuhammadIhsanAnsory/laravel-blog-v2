@@ -39,7 +39,7 @@
             @enderror
           </div>
           <div class="form-group">
-            <label for="image">Jabatan <i>(tidak wajib)</i></label>
+            <label for="image">Jabatan</label>
             <select name="role" id="role" class="form-control @error('role') is-invalid @enderror" required>
               <option value="user" selected>User/Pengguna</option>
               <option value="writer">Writer/Penulis</option>

@@ -26,6 +26,9 @@ Route::group(['middleware' => 'adminwriter'], function () {
     Route::name('admin.')->group(function () {
       Route::get('dashboard', 'Admin\DashboardController@index')->name('dashboard');
 
+      Route::get('user/nonaktif', 'Admin\UserController@trash')->name('user.trash');
+      Route::get('user/aktifkan/{id}', 'Admin\UserController@restore')->name('user.restore');
+      Route::get('user/hapus/{id}', 'Admin\UserController@burn')->name('user.burn');
       Route::resource('user', 'Admin\UserController');
     });
   });

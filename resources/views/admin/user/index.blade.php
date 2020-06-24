@@ -19,21 +19,26 @@
           <thead>
             <tr>
               <th>#</th>
+              <th>Foto Profil</th>
               <th>Nama</th>
               <th>Email</th>
               <th>Jabatan</th>
-              <th>Aksi</th>
+              <th>Aksi<br><small>Detail | Edit | Nonaktifkan</small></th>
             </tr>
           </thead>
           <tbody>
             @forelse ($users as $key=>$user)
                 <tr>
-                  <td>{{ $key }}</td>
+                  <td>{{ $users->firstItem() + $key }}</td>
+                  <td><img src="{{ asset('uploads/users') .'/'. $user->image   }}" alt="Foto profil" style="width: 60px"></td>
                   <td>{{ $user->name }}</td>
                   <td>{{ $user->email }}</td>
                   <td>
-                    @if ($user->role == 'admin')
+                    @if ($user->role == 'SuperAdmin')
                       <span class="badge badge-danger">{{ $user->role }}</span>
+                    @endif
+                    @if ($user->role == 'admin')
+                      <span class="badge badge-warning">{{ $user->role }}</span>
                     @endif
                     @if ($user->role == 'writer')
                       <span class="badge badge-success">{{ $user->role }}</span>
@@ -43,9 +48,14 @@
                     @endif
                   </td>
                   <td>
-                    <a href="">Detail</a>
-                    <a href="">Edit</a>
-                    <a href="">Nonaktifkan</a>
+                    <form action="{{ route('admin.user.destroy', $user->id) }}" method="post">
+                      @method('delete')
+                      @csrf
+                      <a href="{{ route('admin.user.show', $user->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
+                      <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-success btn-sm"><i class="fas fa-edit"></i></a>
+                      <button type="submit" class="btn btn-warning btn-sm" id="delete" onclick="confirm('Nonaktifkan user?')"><i class="fas fa-ban"></i></button>
+                      
+                    </form>
                   </td>
                 </tr>
             @empty
@@ -59,3 +69,4 @@
       </div>
     </div>
 @endsection
+
