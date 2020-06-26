@@ -17,7 +17,7 @@ Route::get('/', function () {
   return view('welcome');
 });
 
-Route::get('logout', 'Auth\LoginController@logout');
+Route::get('/logout', 'Auth\LoginController@logout')->name('admin.logout');
 
 Auth::routes();
 
@@ -28,8 +28,11 @@ Route::group(['middleware' => 'adminwriter'], function () {
 
       Route::get('user/nonaktif', 'Admin\UserController@trash')->name('user.trash');
       Route::get('user/aktifkan/{id}', 'Admin\UserController@restore')->name('user.restore');
-      Route::get('user/hapus/{id}', 'Admin\UserController@burn')->name('user.burn');
+      Route::get('user/hapus/{id}', 'Admin\UserController@forceDelete')->name('user.forceDelete');
       Route::resource('user', 'Admin\UserController');
+
+      Route::get('post/{status}', 'Admin\PostController@index')->name('post.index');
+      Route::get('post/buat-post', 'Admin\PostController@create')->name('post.create');
     });
   });
 });

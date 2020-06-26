@@ -54,7 +54,6 @@
                       <a href="{{ route('admin.user.show', $user->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
                       <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-success btn-sm"><i class="fas fa-edit"></i></a>
                       <button type="submit" class="btn btn-warning btn-sm" id="delete" onclick="confirm('Nonaktifkan user?')"><i class="fas fa-ban"></i></button>
-                      
                     </form>
                   </td>
                 </tr>

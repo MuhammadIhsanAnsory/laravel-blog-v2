@@ -33,8 +33,11 @@
                   <td>{{ $user->name }}</td>
                   <td>{{ $user->email }}</td>
                   <td>
-                    @if ($user->role == 'admin')
+                    @if ($user->role == 'SuperAdmin')
                       <span class="badge badge-danger">{{ $user->role }}</span>
+                    @endif
+                    @if ($user->role == 'admin')
+                      <span class="badge badge-warning">{{ $user->role }}</span>
                     @endif
                     @if ($user->role == 'writer')
                       <span class="badge badge-success">{{ $user->role }}</span>
@@ -47,7 +50,7 @@
                       <a href="{{ route('admin.user.restore', $user->id) }}" class="btn btn-info btn-sm" onclick="confirm('Aktifkan user?')"><i class="fas fa-check"></i></a>
                       <a href="{{ route('admin.user.show', $user->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
                       <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-success btn-sm"><i class="fas fa-edit"></i></a>
-                      <a href="{{ route('admin.user.burn', $user->id) }}" class="btn btn-danger btn-sm" onclick="confirm('Hapus user?')"><i class="fas fa-trash"></i></a>
+                      <a href="{{ route('admin.user.forceDelete', $user->id) }}" class="btn btn-danger btn-sm" onclick="confirm('Hapus user?')"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
             @empty

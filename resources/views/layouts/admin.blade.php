@@ -83,7 +83,7 @@
         <div id="post" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Post:</h6>
-            <a class="collapse-item" href="#">List Post</a>
+            <a class="collapse-item" href="{{ route('admin.post.index', 'aktif') }}">List Post</a>
             <a class="collapse-item" href="#">Tambah Post</a>
             <a class="collapse-item" href="#">Sampah</a>
           </div>
@@ -338,7 +338,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="/logout">Logout</a>
+          <a class="btn btn-primary" href="{{ route('admin.logout') }}">Logout</a>
         </div>
       </div>
     </div>

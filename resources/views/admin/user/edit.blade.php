@@ -51,7 +51,10 @@
             <select name="role" id="role" class="form-control @error('role') is-invalid @enderror" required>
               <option value="user" @if ($user->role == 'user') selected @endif>User/Pengguna</option>
               <option value="writer" @if ($user->role == 'writer') selected @endif>Writer/Penulis</option>
+              @can('isSuperAdmin')
               <option value="admin" @if ($user->role == 'admin') selected @endif>Admin</option>
+              <option value="SuperAdmin" @if ($user->role == 'SuperAdmin') selected @endif>Super Admin</option>
+              @endcan
             </select>
             @error('role')
               <div class="invalid-feedback">{{ $message }}</div>

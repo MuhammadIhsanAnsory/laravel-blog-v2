@@ -7,6 +7,8 @@ use App\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use File;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -39,13 +41,19 @@ class UserController extends Controller
    */
   public function store(Request $request)
   {
-    // dd($request);
+    $admin = auth()->user();
     $request->validate([
       'name' => 'required|min:2',
       'email' => 'required|email|unique:users',
       'image' => 'image|mimes:png,jpeg,jpg',
-      'role' => 'required|in:admin,writer,user',
+      'role' => 'required|in:SuperAdmin,admin,writer,user',
     ]);
+
+
+
+    if ($request->role == 'SuperAdmin' || $request->role == 'admin') {
+      $this->authorize('superAdmin', $admin);
+    }
 
     if ($request->hasFile('image')) {
       $file = $request->file('image');
@@ -93,7 +101,12 @@ class UserController extends Controller
    */
   public function edit($id)
   {
+    $admin = auth()->user();
     $user = User::withTrashed()->findOrFail($id);
+
+    if ($user->role == 'SuperAdmin' || $user->role == 'admin') {
+      $this->authorize('superAdmin', $admin);
+    }
     return view('admin.user.edit', compact('user'));
   }
 
@@ -106,7 +119,13 @@ class UserController extends Controller
    */
   public function update(Request $request, $id)
   {
+    $admin = auth()->user();
     $user = User::withTrashed()->findOrFail($id);
+
+    if ($user->role == 'SuperAdmin' || $user->role == 'admin') {
+      $this->authorize('superAdmin', $admin);
+    }
+
 
     $request->validate([
       'name' => 'required|min:2',
@@ -114,6 +133,8 @@ class UserController extends Controller
       'image' => 'image|mimes:png,jpeg,jpg',
       'role' => 'required|in:admin,writer,user',
     ]);
+
+
 
     $file_name = $user->image;
 
@@ -145,7 +166,18 @@ class UserController extends Controller
    */
   public function destroy($id)
   {
-    User::findOrFail($id)->delete();
+    $admin = auth()->user();
+    $user = User::findOrFail($id);
+
+    if ($user->role == 'SuperAdmin' || $user->role == 'admin') {
+      $this->authorize('superAdmin', $admin);
+    }
+    if ($admin->id == $user->id) {
+      Alert::warning('Gagal!', 'Ini adalah akun yang Anda pakai!');
+
+      return redirect()->back();
+    }
+    $user->delete();
 
     Alert::warning('Berhasil dinonaktifkan!', 'User telah dinonaktifkan!');
 
@@ -161,7 +193,13 @@ class UserController extends Controller
 
   public function restore($id)
   {
-    User::withTrashed()->find($id)->restore();
+    $admin = auth()->user();
+    $user = User::withTrashed()->findOrFail($id);
+
+    if ($user->role == 'SuperAdmin' || $user->role == 'admin') {
+      $this->authorize('superAdmin', $admin);
+    }
+    $user->restore();
 
     Alert::success('Berhasil diaktifkan!', 'User berhasil diaktifkan!');
 
@@ -170,9 +208,21 @@ class UserController extends Controller
 
 
 
-  public function burn($id)
+  public function forceDelete($id)
   {
-    User::withTrashed()->findOrFail($id)->forceDelete();
+    $admin = auth()->user();
+    $user = User::withTrashed()->findOrFail($id);
+    if ($user->role == 'SuperAdmin' || $user->role == 'admin') {
+      $this->authorize('superAdmin', $admin);
+    }
+
+    if ($admin->id == $user->id) {
+      Alert::warning('Gagal!', 'Ini adalah akun yang Anda pakai!');
+
+      return redirect()->back();
+    }
+
+    $user->forceDelete();
 
     Alert::warning('Dihapus!', 'User telah dihapus!');
 

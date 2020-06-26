@@ -36,8 +36,11 @@
                 <th>Jabatan</th>
                 <td>:</td>
                 <td>
-                  @if ($user->role == 'admin')
+                  @if ($user->role == 'SuperAdmin')
                     <span class="badge badge-danger">{{ $user->role }}</span>
+                  @endif
+                  @if ($user->role == 'admin')
+                    <span class="badge badge-warning">{{ $user->role }}</span>
                   @endif
                   @if ($user->role == 'writer')
                     <span class="badge badge-success">{{ $user->role }}</span>

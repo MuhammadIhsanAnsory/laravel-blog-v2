@@ -43,13 +43,17 @@
             <select name="role" id="role" class="form-control @error('role') is-invalid @enderror" required>
               <option value="user" selected>User/Pengguna</option>
               <option value="writer">Writer/Penulis</option>
+              @can('isSuperAdmin')
               <option value="admin">Admin</option>
+              <option value="SuperAdmin">SuperAdmin</option>
+              @endcan
             </select>
             @error('role')
               <div class="invalid-feedback">{{ $message }}</div>
             @enderror
           </div>
           <button class="btn btn-primary my-5"><i class="fas fa-check"></i> Simpan</button>
+          <p><i>**Password default nya adalah "password".</i></p>
         </form>
       </div>
     </div>
