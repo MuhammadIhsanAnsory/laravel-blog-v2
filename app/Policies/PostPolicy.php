@@ -89,7 +89,7 @@ class PostPolicy
    */
   public function forceDelete(User $user, Post $post)
   {
-    return $user->id == $post->user_id || $user->role == 'SuperAdmin' || $user->role == 'admin';
+    return $user->role == 'SuperAdmin' || $user->role == 'admin';
   }
 
   public function publish(User $user, Post $post)

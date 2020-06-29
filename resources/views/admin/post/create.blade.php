@@ -66,7 +66,6 @@
         <p><strong>Keterangan:</strong></p>
         <ul>
           <li><i>**Post otomatis berstatus tidak dipublish</i></li>
-          <li><i>**Hati-hati dalam memilih judul, karena url post akan berdasarkan judul dan tidak bisa diubah lagi</i></li>
         </ul>
       </div>
     </div>

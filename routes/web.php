@@ -35,11 +35,23 @@ Route::group(['middleware' => 'adminwriter'], function () {
       Route::get('post/tidak-aktif', 'Admin\PostController@postNonactive')->name('post.postNonactive');
       Route::get('post/buat-post', 'Admin\PostController@create')->name('post.create');
       Route::post('post/tambah', 'Admin\PostController@store')->name('post.store');
-      Route::get('post/edit-post/{id}/{slug}', 'Admin\PostController@edit')->name('post.edit');
-      Route::get('post/publish-post/{id}/{slug}', 'Admin\PostController@publish')->name('post.publish');
-      Route::get('post/detail-post/{id}/{slug}', 'Admin\PostController@show')->name('post.show');
-      Route::put('post/update-post/{id}/{slug}', 'Admin\PostController@update')->name('post.update');
-      Route::delete('post/hapus-post/{id}/{slug}', 'Admin\PostController@destroy')->name('post.destroy');
+      Route::get('post/edit/{id}/{slug}', 'Admin\PostController@edit')->name('post.edit');
+      Route::get('post/publish/{id}/{slug}', 'Admin\PostController@publish')->name('post.publish');
+      Route::get('post/unpublish/{id}/{slug}', 'Admin\PostController@unpublish')->name('post.unpublish');
+      Route::get('post/detail/{id}/{slug}', 'Admin\PostController@show')->name('post.show');
+      Route::put('post/update/{id}/{slug}', 'Admin\PostController@update')->name('post.update');
+      Route::delete('post/hapus/{id}/{slug}', 'Admin\PostController@destroy')->name('post.destroy');
+      Route::get('post/sampah', 'Admin\PostController@trash')->name('post.trash');
+      Route::get('post/restore/{id}/{slug}', 'Admin\PostController@restore')->name('post.restore');
+      Route::get('post/hapus-permanen/{id}/{slug}', 'Admin\PostController@forceDelete')->name('post.forceDelete');
+
+      Route::get('kategori', 'Admin\CategoryController@index')->name('category.index');
+      Route::post('kategori/tambah', 'Admin\CategoryController@store')->name('category.store');
+      Route::delete('kategori/hapus/{id}/{slug}', 'Admin\CategoryController@destroy')->name('category.destroy');
+      Route::put('kategori/update/{id}/{slug}', 'Admin\CategoryController@update')->name('category.update');
+      Route::get('kategori/sampah', 'Admin\CategoryController@trash')->name('category.trash');
+      Route::get('kategori/restore/{id}/{slug}', 'Admin\CategoryController@restore')->name('category.restore');
+      Route::get('kategori/hapus-permanen/{id}/{slug}', 'Admin\CategoryController@forceDelete')->name('category.forceDelete');
     });
   });
 });

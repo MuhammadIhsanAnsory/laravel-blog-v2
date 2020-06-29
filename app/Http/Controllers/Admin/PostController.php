@@ -9,6 +9,7 @@ use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
+use File;
 
 class PostController extends Controller
 {
@@ -19,7 +20,7 @@ class PostController extends Controller
    */
   public function index()
   {
-    $posts = Post::where('status', 1)->with(['user', 'categories', 'tags'])->orderBy('created_at', 'asc')->paginate(25);
+    $posts = Post::where('status', 1)->with(['user', 'categories', 'tags'])->orderBy('created_at', 'desc')->paginate(25);
 
     return view('admin.post.index', compact('posts'));
   }
@@ -27,7 +28,7 @@ class PostController extends Controller
 
   public function postNonactive()
   {
-    $posts = Post::where('status', 0)->with(['user', 'categories', 'tags'])->paginate(25);
+    $posts = Post::where('status', 0)->with(['user', 'categories', 'tags'])->orderBy('created_at', 'desc')->paginate(25);
     // dd($posts);
     return view('admin.post.index', compact('posts'));
   }
@@ -92,7 +93,7 @@ class PostController extends Controller
    */
   public function show($id)
   {
-    $post = Post::findOrFail($id);
+    $post = Post::withTrashed()->with(['user', 'categories', 'tags'])->findOrFail($id);
     return view('admin.post.show', compact('post'));
   }
 
@@ -104,9 +105,12 @@ class PostController extends Controller
    */
   public function edit($id)
   {
-    $post = Post::findOrFail($id);
+    $post = Post::withTrashed()->with(['user', 'categories', 'tags'])->findOrFail($id);
+    $this->authorize('update', $post);
+    $categories = Category::orderBy('name', 'asc')->get();
+    $tags = Tag::orderBy('name', 'asc')->get();
 
-    return view('admin.post.edit', compact('post'));
+    return view('admin.post.edit', compact('post', 'categories', 'tags'));
   }
 
   /**
@@ -118,7 +122,44 @@ class PostController extends Controller
    */
   public function update(Request $request, $id)
   {
-    //
+    $this->validate($request, [
+      'title' => 'required|min:5',
+      'categories' => 'required',
+      'tags' => 'required',
+      'content' => 'required|min:10',
+      'image' => 'image|mimes:jpg,jpeg,png',
+    ]);
+
+    $post = Post::withTrashed()->findOrFail($id);
+    $this->authorize('update', $post);
+
+    $file_name = $post->image;
+    $user = auth()->user();
+
+    if ($request->hasFile('image')) {
+      $file = $request->file('image');
+      $file_name = time() . $file->getClientOriginalName();
+      $destination = public_path('/uploads/posts');
+      $file->move($destination, $file_name);
+      File::delete(storage_path('uploads/posts/' . $post->image));
+    }
+
+
+    $post->update([
+      'user_id' => $user->id,
+      'title' => $request->title,
+      'content' => $request->content,
+      'slug' => Str::slug($request->title),
+      'image' => $file_name,
+      'status' => 0,
+    ]);
+
+    $post->categories()->sync($request->categories);
+    $post->tags()->sync($request->tags);
+
+    Alert::success('Berhasil!', 'Post berhasil diupdate!');
+
+    return redirect()->route('admin.post.show', [$post->id, $post->slug]);
   }
 
   /**
@@ -129,9 +170,42 @@ class PostController extends Controller
    */
   public function destroy($id)
   {
-    Post::findOrFail($id)->delete();
-    Alert::success('Berhasil!', 'Post berhasil diupload!');
+    $post = Post::findOrFail($id);
+    $post->update([
+      'status' => 0
+    ]);
 
+    $post->delete();
+
+    Alert::warning('Dihapus!', 'Post berhasil dihapus! Cek di sampah.');
+
+    return redirect()->back();
+  }
+
+  public function trash()
+  {
+    $posts = Post::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(25);
+
+    return view('admin.post.trash', compact('posts'));
+  }
+
+  public function restore($id)
+  {
+    $post = Post::withTrashed()->findOrFail($id);
+    $this->authorize('restore', $post);
+    $post->restore();
+
+    Alert::success('Berhasil!', 'Postingan berhasil dikembalikan dan statusnya unpublish!');
+    return redirect()->back();
+  }
+
+  public function forceDelete($id)
+  {
+    $post = Post::withTrashed()->findOrFail($id);
+    $this->authorize('forceDelete', $post);
+    $post->forceDelete();
+
+    Alert::toast('Postingan berhasil dihapus permanen', 'warning');
     return redirect()->back();
   }
 
@@ -145,6 +219,19 @@ class PostController extends Controller
     ]);
 
     Alert::success('Berhasil!', 'Postingan berhasil dipublish!');
+    return redirect()->back();
+  }
+
+  public function unpublish($id)
+  {
+    $post = Post::findOrFail($id);
+    $this->authorize('publish', $post);
+
+    $post->update([
+      'status' => 0
+    ]);
+
+    Alert::warning('Diunpublish!', 'Postingan berhasil diunpublish!');
     return redirect()->back();
   }
 }

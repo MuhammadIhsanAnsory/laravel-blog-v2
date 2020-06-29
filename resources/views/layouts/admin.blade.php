@@ -77,7 +77,6 @@
 
 
       <!-- Nav Item - Pages Collapse Menu -->
-      {{-- @can('isWriter') --}}
       <li class="nav-item{{ request()->is('admin/post*') ? ' active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#post" aria-expanded="true" aria-controls="post">
           <i class="far fa-newspaper"></i>
@@ -86,13 +85,44 @@
         <div id="post" class="collapse{{ request()->is('admin/post*') ? ' show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Post:</h6>
-            <a class="collapse-item{{ request()->is('admin/post/aktif') ? ' active' : '' }}{{ request()->is('admin/post/tidak-aktif') ? ' active' : '' }}" href="{{ route('admin.post.index') }}">List Post</a>
+            <a class="collapse-item{{ request()->is('admin/post/aktif') ? ' active' : '' }}{{ request()->is('admin/post/tidak-aktif') ? ' active' : '' }}" href="{{ route('admin.post.index') }}">Daftar Post</a>
             <a class="collapse-item{{ request()->is('admin/post/buat-post') ? ' active' : '' }}" href="{{ route('admin.post.create') }}">Tambah Post</a>
-            <a class="collapse-item" href="#">Sampah</a>
+            <a class="collapse-item{{ request()->is('admin/post/sampah*') ? ' active' : '' }}" href="{{ route('admin.post.trash') }}">Sampah</a>
           </div>
         </div>
       </li>
-      {{-- @endcan --}}
+
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item{{ request()->is('admin/kategori*') ? ' active' : '' }}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#category" aria-expanded="true" aria-controls="category">
+          <i class="fas fa-list-ul"></i>
+          <span>Kategori</span>
+        </a>
+        <div id="category" class="collapse{{ request()->is('admin/kategori*') ? ' show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Kategori:</h6>
+            <a class="collapse-item{{ request()->is('admin/kategori') ? ' active' : '' }}{{ request()->is('admin/kategori') ? ' active' : '' }}" href="{{ route('admin.category.index') }}">Daftar Kategori</a>
+            <a class="collapse-item{{ request()->is('admin/kategori/sampah*') ? ' active' : '' }}{{ request()->is('admin/kategori/sampah') ? ' active' : '' }}" href="{{ route('admin.category.trash') }}">Sampah</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      {{-- <li class="nav-item{{ request()->is('admin/post*') ? ' active' : '' }}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#post" aria-expanded="true" aria-controls="post">
+          <i class="fas fa-tags"></i>
+          <span>Tag</span>
+        </a>
+        <div id="post" class="collapse{{ request()->is('admin/post*') ? ' show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Post:</h6>
+            <a class="collapse-item{{ request()->is('admin/post/aktif') ? ' active' : '' }}{{ request()->is('admin/post/tidak-aktif') ? ' active' : '' }}" href="{{ route('admin.post.index') }}">Daftar Post</a>
+            <a class="collapse-item{{ request()->is('admin/post/buat-post') ? ' active' : '' }}" href="{{ route('admin.post.create') }}">Tambah Post</a>
+            <a class="collapse-item{{ request()->is('admin/post/sampah*') ? ' active' : '' }}" href="{{ route('admin.post.trash') }}">Sampah</a>
+          </div>
+        </div>
+      </li> --}}
 
       
 
