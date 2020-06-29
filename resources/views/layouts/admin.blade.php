@@ -17,6 +17,9 @@
 
   <!-- Custom styles for this template-->
   <link href="{{ asset('assets/admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
+  
+
+    
 
 </head>
 
@@ -58,10 +61,10 @@
       @canany(['isSuperAdmin','isAdmin'])
       <li class="nav-item{{ request()->is('admin/user*') ? ' active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#user" aria-expanded="true" aria-controls="user">
-          <i class="fas fa-fw fa-cog"></i>
+          <i class="fas fa-user"></i>
           <span>User</span>
         </a>
-        <div id="user" class="collapse {{ request()->is('admin/user*') ? 'show ' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="user" class="collapse{{ request()->is('admin/user*') ? ' show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">User:</h6>
             <a class="collapse-item{{ request()->is('admin/user') ? ' active' : '' }}" href="{{ route('admin.user.index') }}">List User</a>
@@ -75,16 +78,16 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       {{-- @can('isWriter') --}}
-      <li class="nav-item">
+      <li class="nav-item{{ request()->is('admin/post*') ? ' active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#post" aria-expanded="true" aria-controls="post">
-          <i class="fas fa-fw fa-cog"></i>
+          <i class="far fa-newspaper"></i>
           <span>Post</span>
         </a>
-        <div id="post" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="post" class="collapse{{ request()->is('admin/post*') ? ' show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Post:</h6>
-            <a class="collapse-item" href="{{ route('admin.post.index', 'aktif') }}">List Post</a>
-            <a class="collapse-item" href="#">Tambah Post</a>
+            <a class="collapse-item{{ request()->is('admin/post/aktif') ? ' active' : '' }}{{ request()->is('admin/post/tidak-aktif') ? ' active' : '' }}" href="{{ route('admin.post.index') }}">List Post</a>
+            <a class="collapse-item{{ request()->is('admin/post/buat-post') ? ' active' : '' }}" href="{{ route('admin.post.create') }}">Tambah Post</a>
             <a class="collapse-item" href="#">Sampah</a>
           </div>
         </div>
@@ -216,7 +219,7 @@
                 </h6>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
+                    <img class="rounded-circle" src="" alt="">
                     <div class="status-indicator bg-success"></div>
                   </div>
                   <div class="font-weight-bold">
@@ -226,7 +229,7 @@
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
+                    <img class="rounded-circle" src="" alt="">
                     <div class="status-indicator"></div>
                   </div>
                   <div>
@@ -236,7 +239,7 @@
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
+                    <img class="rounded-circle" src="" alt="">
                     <div class="status-indicator bg-warning"></div>
                   </div>
                   <div>
@@ -246,7 +249,7 @@
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
+                    <img class="rounded-circle" src="" alt="">
                     <div class="status-indicator bg-success"></div>
                   </div>
                   <div>
@@ -262,9 +265,18 @@
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+              <a class="nav-link dropdown-toggle mt-4" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <?php $us = auth()->user(); ?>
+                <div class="row">
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $us->name }}</span>
+                  @isset($us->image)
+                  <img class="img-profile rounded-circle" src="{{ asset('uploads/users/' , $us->image) }}" style="width: 60px"; height="60px">
+                  @endisset
+
+                  @empty($us->image)
+                  <i class="fas fa-user-circle" style="height: 60px"></i>
+                  @endempty
+                </div>
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -353,6 +365,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('assets/admin/js/sb-admin-2.min.js') }}"></script>
+
   @include('sweetalert::alert')
 </body>
 

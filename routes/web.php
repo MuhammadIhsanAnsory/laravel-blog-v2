@@ -31,10 +31,21 @@ Route::group(['middleware' => 'adminwriter'], function () {
       Route::get('user/hapus/{id}', 'Admin\UserController@forceDelete')->name('user.forceDelete');
       Route::resource('user', 'Admin\UserController');
 
-      Route::get('post/{status}', 'Admin\PostController@index')->name('post.index');
+      Route::get('post/aktif', 'Admin\PostController@index')->name('post.index');
+      Route::get('post/tidak-aktif', 'Admin\PostController@postNonactive')->name('post.postNonactive');
       Route::get('post/buat-post', 'Admin\PostController@create')->name('post.create');
+      Route::post('post/tambah', 'Admin\PostController@store')->name('post.store');
+      Route::get('post/edit-post/{id}/{slug}', 'Admin\PostController@edit')->name('post.edit');
+      Route::get('post/publish-post/{id}/{slug}', 'Admin\PostController@publish')->name('post.publish');
+      Route::get('post/detail-post/{id}/{slug}', 'Admin\PostController@show')->name('post.show');
+      Route::put('post/update-post/{id}/{slug}', 'Admin\PostController@update')->name('post.update');
+      Route::delete('post/hapus-post/{id}/{slug}', 'Admin\PostController@destroy')->name('post.destroy');
     });
   });
+});
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+  \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
