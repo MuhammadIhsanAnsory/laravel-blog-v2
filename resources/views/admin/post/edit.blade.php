@@ -49,16 +49,16 @@
           <div class="form-group">
             <label for=""><strong>Tag</strong></label>
             <div class="row">
-              @foreach ($tags as $tags)
+              @foreach ($tags as $tag)
                 <div class="col-md-2">
                   <div class="roem-check">
-                    <input type="checkbox" name="tags[]" id="tags" multiple class="form-check-input" value="{{ $tags->id }}" 
+                    <input type="checkbox" name="tags[]" id="tags" multiple class="form-check-input" value="{{ $tag->id }}" 
                     @foreach ($post->tags as $value)
-                        @if ($tags->id == $value->id)
+                        @if ($tag->id == $value->id)
                             checked
                         @endif
                     @endforeach>
-                    <label for="tags" class="form-check-label">{{ $tags->name }}</label>
+                    <label for="tags" class="form-check-label">{{ $tag->name }}</label>
                   </div>
                 </div>
               @endforeach

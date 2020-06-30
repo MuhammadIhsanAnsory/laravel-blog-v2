@@ -151,7 +151,6 @@ class PostController extends Controller
       'content' => $request->content,
       'slug' => Str::slug($request->title),
       'image' => $file_name,
-      'status' => 0,
     ]);
 
     $post->categories()->sync($request->categories);
@@ -203,6 +202,8 @@ class PostController extends Controller
   {
     $post = Post::withTrashed()->findOrFail($id);
     $this->authorize('forceDelete', $post);
+    $post->categories()->detach();
+    $post->tags()->detach();
     $post->forceDelete();
 
     Alert::toast('Postingan berhasil dihapus permanen', 'warning');

@@ -31,6 +31,10 @@ Route::group(['middleware' => 'adminwriter'], function () {
       Route::get('user/hapus/{id}', 'Admin\UserController@forceDelete')->name('user.forceDelete');
       Route::resource('user', 'Admin\UserController');
 
+      Route::get('profil', 'Admin\UserController@profile')->name('profile');
+      Route::get('profil/ubah', 'Admin\UserController@changeProfile')->name('profile.change');
+      Route::put('profil/update', 'Admin\UserController@profileUpdate')->name('profile.update');
+
       Route::get('post/aktif', 'Admin\PostController@index')->name('post.index');
       Route::get('post/tidak-aktif', 'Admin\PostController@postNonactive')->name('post.postNonactive');
       Route::get('post/buat-post', 'Admin\PostController@create')->name('post.create');
@@ -52,6 +56,15 @@ Route::group(['middleware' => 'adminwriter'], function () {
       Route::get('kategori/sampah', 'Admin\CategoryController@trash')->name('category.trash');
       Route::get('kategori/restore/{id}/{slug}', 'Admin\CategoryController@restore')->name('category.restore');
       Route::get('kategori/hapus-permanen/{id}/{slug}', 'Admin\CategoryController@forceDelete')->name('category.forceDelete');
+
+
+      Route::get('tag', 'Admin\TagController@index')->name('tag.index');
+      Route::post('tag/tambah', 'Admin\TagController@store')->name('tag.store');
+      Route::delete('tag/hapus/{id}/{slug}', 'Admin\TagController@destroy')->name('tag.destroy');
+      Route::put('tag/update/{id}/{slug}', 'Admin\TagController@update')->name('tag.update');
+      Route::get('tag/sampah', 'Admin\TagController@trash')->name('tag.trash');
+      Route::get('tag/restore/{id}/{slug}', 'Admin\TagController@restore')->name('tag.restore');
+      Route::get('tag/hapus-permanen/{id}/{slug}', 'Admin\TagController@forceDelete')->name('tag.forceDelete');
     });
   });
 });

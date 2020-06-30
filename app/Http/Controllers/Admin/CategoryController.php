@@ -31,7 +31,7 @@ class CategoryController extends Controller
   public function store(Request $request)
   {
     $request->validate([
-      'name' => 'required|min:2'
+      'name' => 'required|min:2|unique:categories'
     ]);
 
     Category::create([
@@ -52,8 +52,7 @@ class CategoryController extends Controller
    */
   public function update(Request $request, $id)
   {
-
-    $category = Category::withTrashed()->findOrFail($id);
+    $category = Category::findOrFail($id);
 
     if ($category->posts->count() > 0) {
       Alert::warning('Gagal', 'Kategori ini sedang diganakan oleh post!');
@@ -61,7 +60,7 @@ class CategoryController extends Controller
     }
 
     $request->validate([
-      'name' => 'required|min:2'
+      'name' => 'required|min:2|unique:categories,name,' . $id
     ]);
 
     $category->update([

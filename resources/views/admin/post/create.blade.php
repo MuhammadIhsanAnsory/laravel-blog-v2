@@ -15,6 +15,16 @@
         </nav>
       </div>
       <div class="card-body">
+        @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          @foreach ($errors->all() as $error)
+            <li >{{ $error }}</li>
+          @endforeach
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        @endif 
         <form action="{{ route('admin.post.store') }}" method="post" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
@@ -25,23 +35,33 @@
             @enderror
           </div>
           <div class="form-group">
-            <label for="categories">Kategori</label>
-            <select name="categories[]" id="categories" multiple class="form-control @error('categories') is-invalid @enderror" required>
+            <label for=""><strong>Kategori</strong></label>
+            <div class="row">
               @foreach ($categories as $category)
-              <option value="{{ $category->id }}">-   {{ $category->name }}</option>
+                <div class="col-md-3">
+                  <div class="roem-check">
+                    <input type="checkbox" name="categories[]" id="categories" multiple class="form-check-input" value="{{ $category->id }}">
+                    <label for="categories" class="form-check-label">{{ $category->name }}</label>
+                  </div>
+                </div>
               @endforeach
-            </select>
+            </div>
             @error('categories')
               <div class="invalid-feedback">{{ $message }}</div>
             @enderror
           </div>
           <div class="form-group">
-            <label for="tags">Tag</label>
-            <select name="tags[]" id="tags" multiple class="form-control @error('tags') is-invalid @enderror" required>
+            <label for=""><strong>Tag</strong></label>
+            <div class="row">
               @foreach ($tags as $tag)
-              <option value="{{ $tag->id }}">- {{ $tag->name }}</option>
+                <div class="col-md-2">
+                  <div class="roem-check">
+                    <input type="checkbox" name="tags[]" id="tags" multiple class="form-check-input" value="{{ $tag->id }}">
+                    <label for="tags" class="form-check-label">{{ $tag->name }}</label>
+                  </div>
+                </div>
               @endforeach
-            </select>
+            </div>
             @error('tags')
               <div class="invalid-feedback">{{ $message }}</div>
             @enderror

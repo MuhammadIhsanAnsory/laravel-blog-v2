@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use File;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -227,5 +226,48 @@ class UserController extends Controller
     Alert::warning('Dihapus!', 'User telah dihapus!');
 
     return redirect()->back();
+  }
+
+  public function profile()
+  {
+    $user = auth()->user();
+
+    return view('admin.user.profile', compact('user'));
+  }
+
+  public function changeProfile()
+  {
+    $user = auth()->user();
+
+    return view('admin.user.changeProfile', compact('user'));
+  }
+
+  public function profileUpdate(Request $request)
+  {
+    $request->validate([
+      'name' => 'required|min:3',
+      'image' => 'required|image|mimes:jpg,jpeg,png|max:2000'
+    ]);
+
+    $user = auth()->user();
+
+    $file_name = $user->image;
+
+    if ($request->hasFile('image')) {
+      $file = $request->file('image');
+      $file_name = time() . $file->getClientOriginalName();
+      $destination = public_path('/uploads/users');
+      $file->move($destination, $file_name);
+      File::delete(storage_path('uploads/users/' . $user->image));
+    }
+
+    $user->update([
+      'name' => $request->name,
+      'image' => $file_name,
+    ]);
+
+    Alert::success('Berhasil!', 'Profil berhasil diupdate!');
+
+    return redirect()->route('admin.profile');
   }
 }

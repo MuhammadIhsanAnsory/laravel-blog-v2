@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Daftar Post
+    Daftar Kategori
 @endsection
 
 @section('content')
@@ -14,6 +14,16 @@
         </nav>
       </div>
       <div class="card-body">
+        @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          @foreach ($errors->all() as $error)
+            <li >{{ $error }}</li>
+          @endforeach
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        @endif 
         <div class="row">
           <div class="col-md-6 col-sm-12">
             <table class="table table-striped table-hover">
@@ -90,9 +100,12 @@
                   @csrf
                   <div class="form-group">
                     <label for="name">Nama Kategori</label>
-                    <input type="text" class="form-control" required name="name">
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" required name="name">
                   </div>
-                  <button type="submit" class="btn btn-primary">Simpan</button>
+                  @error('name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+                  <button type="submit" class="btn btn-primary">Simpan</button> 
                 </form>
               </div>
             </div>
