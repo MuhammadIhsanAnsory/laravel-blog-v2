@@ -13,13 +13,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-  return view('welcome');
-});
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('admin.logout');
 
 Auth::routes();
+
+Route::name('front.')->group(function () {
+  Route::get('/', 'User\FrontController@index')->name('index');
+  Route::get('home', 'User\FrontController@index')->name('home');
+  Route::get('berita/detail/{id}/{slug}', 'User\FrontController@show')->name('show');
+  Route::get('tag/{slug}', 'User\FrontController@tag')->name('tag');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Route::group(['middleware' => 'adminwriter'], function () {
   Route::prefix('admin')->group(function () {
@@ -72,5 +93,3 @@ Route::group(['middleware' => 'adminwriter'], function () {
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
   \UniSharp\LaravelFilemanager\Lfm::routes();
 });
-
-Route::get('/home', 'HomeController@index')->name('home');

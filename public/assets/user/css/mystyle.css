@@ -1,0 +1,47 @@
+.nav-link {
+    transition: .3s ease-in-out;
+    text-decoration: none !important;
+    font-weight: bolder;
+
+}
+
+.nav-link:hover {
+    transition: .3s ease-in-out;
+    text-decoration: none !important;
+    color: rgb(252, 251, 250);
+}
+
+.media-title {
+    color: black;
+    text-decoration: none !important;
+}
+
+.media-title:hover {
+    color: rgb(73, 73, 73);
+    text-decoration: none !important;
+}
+
+.post-image {
+    width: 700px;
+    height: 400px;
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.category-link {
+    color: rgb(37, 24, 107);
+    font-weight: 500;
+    transition: .2s ease-in-out;
+    text-decoration: none !important;
+}
+
+.category-link:hover {
+
+    transition: .2s ease-in-out;
+    text-decoration: none !important;
+    color: rgb(103, 152, 243);
+}
