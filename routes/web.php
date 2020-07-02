@@ -22,7 +22,9 @@ Route::name('front.')->group(function () {
   Route::get('/', 'User\FrontController@index')->name('index');
   Route::get('home', 'User\FrontController@index')->name('home');
   Route::get('berita/detail/{id}/{slug}', 'User\FrontController@show')->name('show');
-  Route::get('tag/{slug}', 'User\FrontController@tag')->name('tag');
+  Route::get('berita/terbaru', 'User\FrontController@latest')->name('latest');
+  Route::get('tag/{slug}', 'User\FrontController@tag_list')->name('tag');
+  Route::get('kategori/{slug}', 'User\FrontController@category_list')->name('category');
 });
 
 

@@ -40,8 +40,8 @@
               @foreach ($categories as $category)
                 <div class="col-md-3">
                   <div class="roem-check">
-                    <input type="checkbox" name="categories[]" id="categories" multiple class="form-check-input" value="{{ $category->id }}">
-                    <label for="categories" class="form-check-label">{{ $category->name }}</label>
+                    <input type="checkbox" name="categories[]" id="{{ $category->name }}" multiple class="form-check-input" value="{{ $category->id }}">
+                    <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
                   </div>
                 </div>
               @endforeach
@@ -56,8 +56,8 @@
               @foreach ($tags as $tag)
                 <div class="col-md-2">
                   <div class="roem-check">
-                    <input type="checkbox" name="tags[]" id="tags" multiple class="form-check-input" value="{{ $tag->id }}">
-                    <label for="tags" class="form-check-label">{{ $tag->name }}</label>
+                    <input type="checkbox" name="tags[]" id="{{ $tag->name }}" multiple class="form-check-input" value="{{ $tag->id }}">
+                    <label for="{{ $tag->name }}" class="form-check-label">{{ $tag->name }}</label>
                   </div>
                 </div>
               @endforeach

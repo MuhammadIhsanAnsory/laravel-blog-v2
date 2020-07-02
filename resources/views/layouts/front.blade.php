@@ -23,7 +23,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="/">
         <span class="d-inline-block align-top ml-2">Kabar Burung</span>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarExample" aria-controls="navbarExample"
@@ -39,22 +39,24 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link{{ request()->is('berita/terbaru*')? ' active' : '' }}" href="{{ route('front.latest') }}">Terbaru</a>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown {{ request()->is('kategori*')? ' active' : '' }}">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false">
-              Dropdown
+              Kategori
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+              @foreach ($categories as $category)
+                  @if ($category->posts->count() > 0)
+                    <a class="dropdown-item{{ request()->is('kategori/' . $category->slug.'*')? ' active' : '' }}" href="{{ route('front.category', $category->slug) }}">{{ $category->name }}</a>
+                  @endif
+              @endforeach
             </div>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a class="nav-link disabled" href="#">Disabled</a>
-          </li>
+          </li> --}}
         </ul>
       </div>
     </div>

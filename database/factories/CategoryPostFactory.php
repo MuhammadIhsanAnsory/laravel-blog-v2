@@ -9,7 +9,7 @@ use Faker\Generator as Faker;
 
 $factory->define(category_post::class, function (Faker $faker) {
   return [
-    'category_id' => factory(Category::class),
+    'category_id' => $faker->randomElement([1, 2, 3, 4]),
     'post_id' => factory(Post::class)
   ];
 });

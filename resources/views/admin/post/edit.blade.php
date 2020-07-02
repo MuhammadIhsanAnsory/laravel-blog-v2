@@ -31,13 +31,13 @@
               @foreach ($categories as $category)
                 <div class="col-md-3">
                   <div class="roem-check">
-                    <input type="checkbox" name="categories[]" id="categories" multiple class="form-check-input" value="{{ $category->id }}" 
+                    <input type="checkbox" name="categories[]" id="{{ $category->name }}" multiple class="form-check-input" value="{{ $category->id }}" 
                     @foreach ($post->categories as $value)
                         @if ($category->id == $value->id)
                             checked
                         @endif
                     @endforeach>
-                    <label for="categories" class="form-check-label">{{ $category->name }}</label>
+                    <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
                   </div>
                 </div>
               @endforeach
@@ -52,13 +52,13 @@
               @foreach ($tags as $tag)
                 <div class="col-md-2">
                   <div class="roem-check">
-                    <input type="checkbox" name="tags[]" id="tags" multiple class="form-check-input" value="{{ $tag->id }}" 
+                    <input type="checkbox" name="tags[]" id="{{ $tag->name }}" multiple class="form-check-input" value="{{ $tag->id }}" 
                     @foreach ($post->tags as $value)
                         @if ($tag->id == $value->id)
                             checked
                         @endif
                     @endforeach>
-                    <label for="tags" class="form-check-label">{{ $tag->name }}</label>
+                    <label for="{{ $tag->name }}" class="form-check-label">{{ $tag->name }}</label>
                   </div>
                 </div>
               @endforeach

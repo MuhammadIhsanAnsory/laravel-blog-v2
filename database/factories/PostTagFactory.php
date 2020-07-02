@@ -10,6 +10,6 @@ use Faker\Generator as Faker;
 $factory->define(post_tag::class, function (Faker $faker) {
   return [
     'post_id' => factory(Post::class),
-    'tag_id' => factory(Tag::class)
+    'tag_id' => $faker->randomElement([1, 2, 3, 4])
   ];
 });
