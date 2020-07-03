@@ -21,6 +21,7 @@
       <p>
         {!! $post->content !!}
       </p>
+      <i class="fas fa-tags text-secondary"></i> Tag : 
       @foreach ($tags as $key=>$tag)
         @if ($tag->posts->count() > 0)
           <a href="{{ route('front.tag', $tag->slug) }}"><span class="badge badge-info">{{ $tag->name }}</span></a>
